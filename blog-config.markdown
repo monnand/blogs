@@ -7,7 +7,7 @@ Language: zhCN
 Tags: ["Django", "My Blog", "lighttpd"]
 --%>
 
-生命不止，折腾不息。伴随着北美冬季的寒风，俺又开始了写博客的折腾人生。而且这次更加体现了凡事都要自己来的宅男个性。从代码到建站，基本都是自己搞定的。本文详细叙述一下具体的建站配置。至于代码，都在[github](http://github.com/monnand/myblog/)上可以看到，我就不多说了。
+生命不息，折腾不止。伴随着北美冬季的寒风，俺又开始了写博客的折腾人生。而且这次更加体现了凡事都要自己来的宅男个性。从代码到建站，基本都是自己搞定的。本文详细叙述一下具体的建站配置。至于代码，都在[github](http://github.com/monnand/myblog/)上可以看到，我就不多说了。
 
 #网站代码#
 好吧，我确实说不多说了，但也不能不说。全站都是用[Django](http://djangoproject.com/)写的，没有用[admin](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)，因为统共就一个作者，不值当的。当然，代码本身是支持多作者的。不过这块的开发还有待完善。
@@ -28,3 +28,5 @@ Tags: ["Django", "My Blog", "lighttpd"]
 
 这个博客用的是[lighttpd](http://www.lighttpd.net/) + Fast CGI + [PostgreSQL](http://www.postgresql.org/)。据说用apache的``mod_wsgi``会更加稳定，但实在供不起Apache。
 
+#Github#
+原谅我吧，[github](http://github.com/)！除了代码，我把文章也[放上去](http://github.com/monnand/blogs/)了。
