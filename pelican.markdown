@@ -1,7 +1,7 @@
 <%--
 Author: monnand
 Key: /home/monnand/.ssh/monnand.pem
-Title: Pelican: 静态博客生成程序
+Title: Pelican：静态博客生成程序
 Slug: pelican
 Language: zhCN
 Tags: ["Pelican", "Uniqush"]
