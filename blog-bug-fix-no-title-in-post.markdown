@@ -1,7 +1,7 @@
 <%--
 Author: monnand
 Key: /home/monnand/.ssh/monnand.pem
-Title: Blog Bug Fix：博文无子标题排版不正常
+Title: Bug Fix：无子标题排版不正常
 Slug: blog-bug-fix-no-title-in-post
 Language: zhCN
 Tags: ["My Blog"]
