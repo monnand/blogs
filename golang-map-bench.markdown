@@ -9,6 +9,8 @@ Tags: ["golang", "golang map"]
 
 [Go语言](http://golang.org)提供了[map类型](http://weekly.golang.org/ref/spec#Map_types)。该类型与python中的dict，perl中的hash类似，都是可以以“任意”（但需要对这些类型有一定限制）类型作为索引键值，来取得对应数据。这样可以方便地存储Key-Value对。虽然C++的STL，java的标准库，也都提供类似的类型，但作为一个编译型静态的imperative语言，在语法层面上支持该类型，至少对我来说还是第一次见到。但map被很多人认为是性能杀手，这可能一部分归咎于Go官方博客上的[一篇文章](http://blog.golang.org/2011/06/profiling-go-programs.html)。本文重点是希望利用几个自己写的简单的benchmark，来比较go语言的map和其他语言中的对应实现。
 
+*注意*：本文内容已被[另外一篇](http://monnand.me/p/hashtable-bench/zhCN/)更新，请务必读过[该文](http://monnand.me/p/hashtable-bench/zhCN/)后再做判断。
+
 #Go中使用map#
 
 由于是在语法层面的支持，所以go的map很好使用。我就用我的benchmark代码，来大概说说go中map的使用：
@@ -255,4 +257,4 @@ Map Seq. Access. iterations: 10000000. 0.4742399 us/op
 
 已经把问题发到[golang-nuts](https://groups.google.com/forum/?fromgroups#!topic/golang-nuts/HDz5KiG6oMY)了。期待有人解答。
 
-
+*注意*：本文内容已被[另外一篇](http://monnand.me/p/hashtable-bench/zhCN/)更新，请务必读过[该文](http://monnand.me/p/hashtable-bench/zhCN/)后再做判断。
