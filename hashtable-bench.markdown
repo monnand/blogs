@@ -36,7 +36,7 @@ Tags: ["golang", "golang map", "HashMap", "unordered_map", "hash table"]
 ##内存平均访问时间##
 内存平均访问时间（Average Memory Access Time, AMAT）大约可以通过以下公式计算得出：
 
-AMAT = hit time + cache miss rate * cache miss penalty
+AMAT = hit time + cache miss rate \* cache miss penalty
 
 - hit time等于直接从缓存中取出数据所用的时间
 - cache miss rate等于缓存缺失次数除以全部内存访问次数。即缺失率
@@ -162,6 +162,96 @@ HashMap Random Access. N = 10000000: 0.178708 us/op.
 ![Hash Table Access Time (Random Access)](http://monnand.me/media/img/hashtable-rand-access.png)
 
 #总结#
-基本说来，关于Go中map是否是性能杀手的问题：如果你能忍受C++的unordered_map，python中的dict以及元素数在100000以内的Java中的HashMap，那么Go中的map就应该还能接受。
+基本说来，关于Go中map是否是性能杀手的问题：如果你能忍受C++的unordered\_map，python中的dict以及元素数在100000以内的Java中的HashMap，那么Go中的map就应该还能接受。
 
 另外还有一点让我意外的，就是Java在元素数庞大时的效率。如果你有很多很多的元素，而且数量不会增加（Java中插入元素的效率比较低），那么采用Java的HashMap应该不错。关于这部分，可以再做一些benchmark。
+
+#后续讨论#
+我把结果发到[golang-china](https://groups.google.com/d/topic/golang-china/BGvYJu_vHQI/discussion)上，有些朋友给出了更多的测试结果或建议。
+
+##Java的startup##
+lihui指出：
+
+	不能用java的小数量的条目来恒定它的性能，因为在测试环
+	境中，小数量的条目不能让它热起来，而在实际环境中，由
+	于hashmap会在程序中多处使用，并且会循环调用使用过
+	hashmap的历程，因此在实际中hashmap必然是热的，从而对
+	小数目的hashmap而言，性能仍然是处于最优化的状态。
+
+我的回复：
+
+	为此，我又对java做了一个测试。测试方法是：在计时开始
+	前，先调用一遍循环取得所有元素。这样做对于元素多的哈希
+	表，会增加conflict miss和capacity miss。但对于小的哈希
+	表，可以完全避免compulsory miss。简单说，这个循环先让
+	cache预热起来。
+
+	我没有测试N=1E7的时候，因为N=1E7的时候java实在太耗费时
+	间了。我前面说了，可能是我插入部分的代码没有做任何性能
+	考虑的缘故，但毕竟这部分不计时，也就没关心。
+
+	以下是Java预热启动的结果：
+	HashMap Random Access. N = 10: 0.362500 us/op.
+	HashMap Random Access. N = 100: 0.254190 us/op.
+	HashMap Random Access. N = 1000: 0.219619 us/op.
+	HashMap Random Access. N = 10000: 0.639815 us/op.
+	HashMap Random Access. N = 100000: 0.244724 us/op.
+	HashMap Random Access. N = 1000000: 0.159392 us/op.
+
+	作为对比，以下是Go冷启动的结果（没有cache预热）：
+	Map Random Access. N = 10: 0.3 us/op
+	Map Random Access. N = 100: 0.14 us/op
+	Map Random Access. N = 1000: 0.08800000000000001 us/op
+	Map Random Access. N = 10000: 0.1157 us/op
+	Map Random Access. N = 100000: 0.46925 us/op
+	Map Random Access. N = 1000000: 0.520184 us/op
+
+	个人认为，Java慢的原因还是和JVM脱不开干系。成也萧何，败
+	也萧何。小数据量的时候，JVM本身的overhead占了主流。大数
+	据量的时候，JVM的预测，乱序执行和prefetch发挥了作用。
+
+	当然，以上纯粹我的推测，还请了解JVM的朋友们帮忙指正。
+
+##key值对哈希表的影响##
+
+laputa指出：
+
+	测试结果，除了和这两者有关：
+	1、key的类型（int、string或其它）
+	2、key的遍历顺序（自然序还是随机序）
+
+	还和key序列的特征有关。
+
+	如果把key进行md5，然后取其中9位，Python的测试结果如下。
+
+	Dict Seq. Access. N = 10 :  0.882148742676 us/op
+	Dict Seq. Access. N = 100 :  0.340938568115 us/op
+	Dict Seq. Access. N = 1000 :  0.312805175781 us/op
+	Dict Seq. Access. N = 10000 :  0.339293479919 us/op
+	Dict Seq. Access. N = 100000 :  0.623297691345 us/op
+	Dict Seq. Access. N = 1000000 :  0.772630929947 us/op
+	Dict Seq. Access. N = 10000000 :  0.986476206779 us/op
+
+	这前后差异的原因是python的dict采用open addressing实现。
+
+	Go 的结果如下，变化较小：
+	Map Seq. Access. N = 10: 0.8000000000000002 us/op
+	Map Seq. Access. N = 100: 0.3 us/op
+	Map Seq. Access. N = 1000: 0.239 us/op
+	Map Seq. Access. N = 10000: 0.29430000000000006 us/op
+	Map Seq. Access. N = 100000: 0.37426 us/op
+	Map Seq. Access. N = 1000000: 0.371087 us/op
+	Map Seq. Access. N = 10000000: 0.4287918 us/op
+
+	不知道Java的结果跟此有没有关系~
+
+	btw，之前忘了说，测试的环境是Linux
+	Linux 2.6.29.3-server-1mnb SMP  i686 AMD Opteron(tm) Processor 246 GNU/Linux
+
+我的回复是：
+
+	个人认为，这取决于哈希函数。取过MD5 
+	后，相当于 --- 虽然不能完全等效于 --- 把key做了随机化。这样哈希值相差也可能比 
+	较大。而此时Go的tree strucutre优势就体现出来了。
+
+
