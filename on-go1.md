@@ -419,26 +419,27 @@ CPU上，并且同时使用所有的核。
 对于一个自包含（不依赖任何第三方库）的程序，只需要在当前目录下运行``go
 build``就会编译好整个程序。
 
-如果我的程序依赖第三方库，又该如何呢？很简单，在代码中import第三方库的
-地址即可。这里的import和Java/Python中的import的概念一样，都是引入一个包。
+如果我的程序依赖第三方库，又该如何呢？很简单，在代码中的import语句里，
+写入第三方库的在网络中的位置即可。这里的import和Java/Python中的import的
+概念一样，都是引入一个包。
 
     import (
         "fmt"
         "github.com/monnand/redis.go"
     )
     
-import中引入的第一个包，是fmt，这是标准库中的包，用于Printf一类的格式化
+import中引入的第一个包，是fmt，这是标准库中的包，提供Printf一类的格式化
 输入和输出。第二个引入的包则是位于github上的代码库。它会引入github上，
 用户monnand下，redis.go这个项目定义的包。
 
-倘若要安装一个包或程序也很简单，只需要一条命令：
+倘若要安装一个位于远程服务器上的包或程序也很简单，只需要一条命令：
 
     go get github.com/monnand/uniqush/uniqush-push
     
-这样，go程序就会自动下载，编译和安装这个程序。除了github，go还支持
-google code，BitBucket，Launchpad，或者是任何位于其他服务器上，使用svn，
-git，Bazzar，Mercurial做版本控制的Go程序/库。这一切都极大地简化了开发人
-员和最终用户的操作。
+这样，go程序就会自动下载，编译和安装这个程序（包括它的依赖）。除了
+github，go还支持google code，BitBucket，Launchpad，或者是任何位于其他服
+务器上，使用svn，git，Bazzar，Mercurial做版本控制的Go程序/库。这一切都
+极大地简化了开发人员和最终用户的操作。
 
 ## 再谈运行效率
 
@@ -486,12 +487,11 @@ Unix创始人Ken Thonpson；UNIX/Plan 9开发者Rob Pike，Russ Cox；memcached
 Robert Griesemer；Gold连接器作者，GCC社区活跃开发人员Ian Lance
 Taylor……当这样一群人凑在一起，无论开发什么，这团队本身也许已经足以吸引
 众人眼球了。而Go作为这样一个团队开发出的语言，目前为止还是给不少人带来
-了惊喜。国内包括豆瓣，QBox等公司已经率先踏入Go语言这个领域。
+了惊喜。
+
+已经有很多公司使用Go开发生产级程序。Rob Pike曾透露过Google内部正逐渐开
+始使用Go。YouTube则使用Go编写核心部件，并且将部分代码组织成了开源项目
+vitess。国内包括豆瓣，QBox等公司也已经率先踏入Go语言这个领域。
 
 随着Go 1的推出，一个稳定的Go语言平台和开源社区已经形成。对于喜欢尝试新
 鲜语言的开发者，Go不失为一个选择。
-
-## 参考文献
-
-- Go官方网站 http://golang.org
-- Effective Go, Go官方公布的教程 http://golang.org/doc/effective_go.html
