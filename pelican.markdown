@@ -4,7 +4,7 @@ Key: /home/monnand/.ssh/monnand.pem
 Title: Pelican：静态博客生成程序
 Slug: pelican
 Language: zhCN
-Tags: ["pelican", "uniqush"]
+Tags: ["pelican", "uniqush", "tools"]
 --%>
 
 刚刚做好这个博客的时候，收到了[CNBorn](http://cnborn.net)发来的邮件，一方面是祝贺新博客落成，另一方面，主要是推荐一款静态博客生成程序:

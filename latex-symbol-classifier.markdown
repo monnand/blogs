@@ -4,7 +4,7 @@ Key: /home/monnand/.ssh/monnand.pem
 Title: LaTeX符号分类器
 Slug: latex-symbol-classifier
 Language: zhCN
-Tags: ["LaTeX"]
+Tags: ["LaTeX", "tools"]
 --%>
 
 每次写LaTeX文档的时候，总会忘记某个符号究竟该怎么写。且不说各种乱七八糟的数学符号，单就背全希腊字母，就得有段时间。每当此时，就要google一下Latex cookbook，然后在[cookbook](http://www.ce.rit.edu/~cockburn/latex/TeX%20cookbook.pdf)里查半天。
