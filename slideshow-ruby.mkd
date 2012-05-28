@@ -1,0 +1,28 @@
+<%--
+Author: monnand
+Key: /home/monnand/.ssh/monnand.pem
+Title: Slideshow：轻松制作HTML幻灯片
+Slug: slideshow-ruby
+Language: zhCN
+Tags: ["tools", "slideshow", "slides"]
+--%>
+
+上次介绍了[impress.js](http://monnand.me/p/impress-js/zhCN/)，虽然很酷很炫，但如果很难用简单的纯文本编辑器来编写幻灯片。要是能有个幻灯片制作软件，让我们用[markdown](http://daringfireball.net/projects/markdown/)，[textile](http://en.wikipedia.org/wiki/Textile_%28markup_language%29)这类格式编写幻灯片，再编译成HTML文件，那就非常方便了。
+
+[slideshow](http://slideshow.rubyforge.org/)就是这样一款软件。你可以用[textile](http://en.wikipedia.org/wiki/Textile_%28markup_language%29)来编写幻灯片，然后用它编译成HTML文件。由于是HTML格式，意味着你可以用各种CSS，javascript来对它做排版编辑。今天天我就用它做了一个[幻灯片](http://blog.uniqush.org/golang-slides)来介绍[Go语言](http://golang.org)。这里是这个幻灯片的[textile代码](http://blog.uniqush.org/golang-slides/golang-slides.textile)
+
+#为什么用纯文本文件编辑？
+
+简单！方便！你不必用鼠标拖来拖去，不用在制作幻灯片的时候就考虑排版问题。总之，用纯文本编辑你的幻灯片，可以让你的思路集中在幻灯片的内容本身。排版？那是之后才该考虑的问题。内容和呈现方式由此被分离。
+
+#为什么用HTML？
+
+- 移植性：你不用再带着U盘到处跑，也不用到担心PowerPoint版本不一致。你只要把HTML文件传到网上，跑到任何一个有浏览器的电脑上，就可以播放幻灯片
+- 一致性：在任何浏览器上，显示效果都一样。你不用担心哪个符号会不会被现实出来。（当然，前提是模板选择好。不过网上已经有[一大堆](http://slideshow.rubyforge.org/templates.html)给[slideshow](http://slideshow.rubyforge.org/)用的模板了。
+
+#实例
+
+- [我的幻灯片](http://blog.uniqush.org/golang-slides/)，关于[Go语言](http://golang.org)。[textile代码](http://blog.uniqush.org/golang-slides/golang-slides.textile)
+- slideshow官方提供的一个[幻灯片](http://slideshow.rubyforge.org/s5/tutorial.html)，关于[slideshow](http://slideshow.rubyforge.org/)的教程。
+
+
