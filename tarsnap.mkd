@@ -1,0 +1,71 @@
+<%--
+Author: monnand
+Key: /home/monnand/.ssh/monnand.pem
+Title: tarsnap：Geek专用安全备份服务
+Slug: tarsnap
+Language: zhCN
+Tags: ["tools", "tarsnap", "backup", "security"]
+--%>
+
+一般情况下，如果需要个远程备份的服务——或者用时髦点的说法：“云”存储服务——那么[Dropbox]，[box]也许就足够了。但是，如果你有一些非常重要/私密的资料——比如你的私钥，敏感数据，或者陈老师那样的照片等等，那么数据安全的问题就必须得考虑。[tarsnap]是一款由FreeBSD Security Officer，[scrypt]算法的作者[Colin Percival]编写的备份系统。整个系统建立在amazon s3的存储基础上，配合了各种当下（相对）非常安全的加密算法和协议，并且使用了（相对）安全的参数（这一点非常重要）。不仅如此，客户端部分还是以源代码形式发布。最重要的：客户端只有命令行界面。没错！这是款专门给Geek用的备份软件。
+
+# 技术细节
+
+在[tarsnap]的网站上，可以看到它的具体[设计原则](https://www.tarsnap.com/design.html)。除此以外，[Colin Percival]还专门写了[一篇博客](http://www.daemonology.net/blog/2009-06-11-cryptographic-right-answers.html)，讨论该使用哪些算法和参数，完成何种任务（认证，对称加密，MAC等）。文中提到的各种算法和参数，基本都是[tarsnap]使用的。
+
+# 收费
+
+[tarsnap]可谓是业界良心。第一，它的收费极其便宜。每个人的敏感数据并不会很大（谁也不会把一部盗版电影作为敏感数据存上去），所以存在上面，基本相当于没交什么钱。第二，[tarsnap]上，所有数据是按照字节收费的，而且没有任何附加费用。也就是说：如果你没用够1GB，你就不用付1GB的钱。这听起来也许理所当然，但是要知道，像amazon s3这样的存储服务提供商，可都是按照GB收费的。
+
+[tarsnap]上，一个字节每月收费300皮美元。如果你对“皮美元”这个单位不熟悉，可以参见[这里](https://www.tarsnap.com/picoUSD-why.html)。简单说，“皮”是标准SI单位制的前缀，等于10的-12次方（10^-12）。所以，每个字节的每月收费是300乘以10的-12次方。如果你只是备份一些私钥之类的东西，那么基本相当于不要钱。累计的话每个GB每月收费是0.3美元。需要注意的是，1GB等于10的9次方。至于为什么不是2的30次方，参见作者的[解释](https://www.tarsnap.com/GB-why.html)。
+
+# 使用
+
+这里大概介绍一些[tarsnap]的使用。具体使用方法，参见[tarsnap]的[文档](https://www.tarsnap.com/documentation.html)。
+
+## 注册
+
+第一步需要[注册一个账户](https://www.tarsnap.com/register.cgi)。由于[tarsnap]是按照字节收费，所以每月收取的费用很小——可能小于1美分。所以，它的付费模式是先充值，再使用。第一次最好要充值5美元。如果只是备份一些小数据，那么5美元用上几年应该没问题。注册成功之后，需要使用注册邮箱激活，然后可以使用信用卡或者PayPal充值。
+
+## 下载编译客户端
+
+是的，如果你用Windows，恐怕需要装个Cygwin。[tarsnap]面向的用户都是使用类UNIX系统的。
+
+从[下载页面](https://www.tarsnap.com/download.html)下载最新的客户端代码，然后解压。程序使用了autotools，所以直接`./configure`，`make`，`sudo make install`就可以。需要注意的就是要安装好依赖，详细的依赖列表在[下载页面](https://www.tarsnap.com/download.html)上有。
+
+## 生成密钥
+
+第一次使用[tarsnap]，需要先生成一个密钥。每换一台计算机，都需要重新生成一遍密钥。当然，也可以直接把以前的密钥文件拷贝过去，不过重新生成一个会更加安全（方便？）。
+
+`tarsnap-keygen --keyfile ~/tarsnap.key --user username@example.com --machine mybox`
+
+- `--keyfile` 指定密钥文件存储位置。这里将密钥存在`~/tarsnap.key`下。
+- `--user` 指定[tarsnap]注册时使用的邮箱。这里用`username@example.com`。
+- `--machine`为当前计算机指定一个名字。这里名为mybox。
+
+## 创建一个备份
+
+- 创建一个目录，给[tarsnap]用作cache：`mkdir ~/tarsnap-cache`
+- 为该目录设置相应权限：`chmod 700 ~/tarsnap-cache`
+- 创建一个名为`ssh-keys`的备份，将`~/.ssh`目录放到这个备份中：`tarsnap -c --keyfile ～/tarsnap.key --cachedir ~/tarsnap-cache/ -f ssh-keys ~/.ssh/`
+
+## 其他操作
+
+[tarsnap]网站上列举了一些[常用操作](https://www.tarsnap.com/usage.html)，以及详细的[用户手册](https://www.tarsnap.com/man.html)。上面提到的一些参数（比如cacheidr，keyfile等）可以使用[配置文件](https://www.tarsnap.com/man-tarsnap.conf.5.html)来简化操作。
+
+## 相关资源
+
+[tarsnap]不仅为用户提供了一套安全备份的系统，它的作者还贡献了很多有用的资源/代码，包括：
+
+- 利用用户密码生成密钥的[scrypt算法](http://www.tarsnap.com/scrypt.html)
+- 一款安全高效的Key-Value数据库：[kivaloo](http://www.tarsnap.com/kivaloo.html)
+- 一套用来建立安全连接的工具[spiped](http://www.tarsnap.com/spiped.html)
+- 一篇非常非常有用的，关于如何*安全地*使用各种密码学相关设施（算法，协议等）的[文章](http://www.daemonology.net/blog/2009-06-11-cryptographic-right-answers.html)
+- 一套非常不错的关于密码学的[幻灯片](http://www.bsdcan.org/2010/schedule/attachments/135_crypto1hr.pdf)
+- 一个由[tarsnap]作者[Colin Percival]维护的高质量[博客](http://www.daemonology.net/blog)
+
+[Dropbox]: http://dropbox.com
+[box]: http://box.com
+[tarsnap]: https://www.tarsnap.com/index.html
+[scrypt]: http://en.wikipedia.org/wiki/Scrypt
+[Colin Percival]: http://www.daemonology.net/blog/
