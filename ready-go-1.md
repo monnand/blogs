@@ -17,7 +17,7 @@ Go语言是Google于2009年推出的静态编译型语言，旨在为开发人�
 
 # 编译效率，运行效率，开发效率
 
-> 曾经那些代码，品读起来，恰似满腹经论的学者之间，细语轻声，拂琴畅谈。绝非乌烟瘴气之下，面红耳赤地与编译器争辩。--- Dick P. Gabriel
+> *曾经那些代码，品读起来，恰似满腹经论的学者之间，细语轻声，拂琴畅谈。绝非乌烟瘴气之下，面红耳赤地与编译器争辩。*--- Dick P. Gabriel
 
 按照Go官方FAQ的说法，Go的出现是为了弥补其他语言在系统级开发上的缺陷。这样一句话，难免有人会觉得，Go的诞生纯粹是几位计算机界大佬 --- Go最初的核心开发人员包括Robert Griesemer, Robe Pike, Ken Thompson --- 在埋怨自己的不肖后辈，并在吐槽同时，自己亲自操刀开发了这样一个语言。但更中肯地说法，恐怕是他们在目睹和体验了Google的系统级开发之后，总结出的一套在异构，分布式多核系统之上的生存之道。而今天Google所面临的问题，也许恰恰是几年后每个公司的面试题目。与其说Go是一座空中楼阁，不如说是各位系统开发界大佬进入新时代后的一部略带辛酸的开发史。
 
@@ -35,7 +35,7 @@ Go的基本设计理念是：编译效率，运行效率和开发效率要三者
 
 # 化繁为简，语法当先
 
-> `public static <I, O> ListenableFuture<O> chain (ListenableFuture<I>input, Function<? super I, ? extends ListenableFuture<? extends O>>function)` 苍天啊！大地啊！快把这货拦下来吧！--- 来自某聊天记录
+> *`public static <I, O> ListenableFuture<O> chain (ListenableFuture<I>input, Function<? super I, ? extends ListenableFuture<? extends O>>function)` 苍天啊！大地啊！快把这货拦下来吧！*--- 来自某聊天记录
 
 初学Go，会让人感到它神似C语言，并非是其背后强大的开发团队和他们与C语言千丝万缕的联系，也不仅仅是Go对系统级开发的重视和它类C的语法。而是简洁与实用并存的语法让人触目难忘。在21世纪，一个严肃的通用编程语言，使用一份仅有约两万词的语言规范，只定义25个关键字，42个操作符，却涵盖了并发，面向对象等方方面面，仅仅这些，对于开发人员来说，这个语言怕也足以值得一试了。
 
@@ -47,6 +47,7 @@ Go的基本设计理念是：编译效率，运行效率和开发效率要三者
 - 所有循环只有for一个关键字。而for循环有可以有几种写法: 和C语言for循环类似的写法``for i := 0; i < 10; i++ { dosomething() }``；和C语言while循环类似的写法``for i < 100 { dosomething() }``；以及无条件循环``for { iteration() }``；另外，对于切片类型（类似于Java中的数组，是一种线性结构）和map类型（go中的哈希表实现），还可以配合range关键字，遍历存储的成员，如``for i, e := range list { dosomething(i, e) }``。
 - switch的条件可以是表达式且可以没有控制语句。这意味着以下语句是合法的：
 
+    :::go
     switch {
     case i % 2 == 0:
         process_even(i)
@@ -64,6 +65,7 @@ Go的基本设计理念是：编译效率，运行效率和开发效率要三者
 
 这一节主要讨论Go的类型系统。和C语言一样，Go也使用结构体进行数据抽象：
 
+    :::go
     type Duck struct {
         Name string
     }
@@ -79,6 +81,7 @@ Go的基本设计理念是：编译效率，运行效率和开发效率要三者
 
 然后，我们就可以使用这个结构体和它的方法了：
 
+    :::go
     func main() {
         d := new(Duck)
         d.Name = "Donald"
@@ -95,6 +98,7 @@ Go如果只是粗鲁地去掉了继承机制，而不去面对继承所要解决
 
 继续上面的例子，假如需要定义一个DonaldDuck类型，它的Eat方法实现和Duck一样，但是多了一个叫做Age的成员：
 
+    :::go
     type DonaldDuck struct {
         Duck
         Age int
@@ -104,6 +108,7 @@ Go如果只是粗鲁地去掉了继承机制，而不去面对继承所要解决
 
 那么这匿名成员究竟对代码复用有什么意义呢？Go对匿名成员有一条特殊规则：包含匿名成员的结构体也具有了匿名成员类型的方法。简单说，对于上面的例子，DonaldDuck中包含了匿名成员Duck，那么就好像DonaldDuck实现了Duck的各种方法。这样，下面的代码就容易理解了：
 
+    :::go
     func main() {
         d := new(DonaldDuck)
         d.Name = "Donald"
@@ -115,12 +120,14 @@ Go如果只是粗鲁地去掉了继承机制，而不去面对继承所要解决
 
 为了实现继承机制的另外一部分，即多态，Go引入了接口类型的概念。与Java中的接口类似，Go的接口也是声明了一组方法的原型，然后由具体结构体（类）的方法来实现各种接口。但是与Java不同的是，Go使用了类似OCaml的结构化类型系统（Structural Type System），这种类型系统不要求实现接口的类型显示地声明究竟要实现哪些接口。只需要定义好与接口类型一致的全部方法，就说该类型实现了这个接口。具体说来，对于以上代码，我们可以定义一个Animal的接口：
 
+    :::go
     type Animal interface {
         Eat()
     }
 
 这个接口中仅仅定义了一个方法：Eat，它没有任何输入参数，也没有返回值。至此为止，Duck和DonaldDuck都是Animal这个接口的实现。没错，你不必修改Duck和DonaldDuck的代码，不必显示的写明implements Animal，只要实现了Eat方法，并且原型与接口类型中定义的一致就可以了。那么，我们就可以直接声明一个Duck类型的指针，然后把它赋值给Animal接口类型的变量：
 
+    :::go
     func main() {
         var a Animal
         d := new(Duck)
