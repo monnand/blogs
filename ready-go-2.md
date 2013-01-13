@@ -7,11 +7,11 @@ Language: zhCN
 Tags: ["golang"]
 --%>
 
-*本文分两部分连载于2012年5月和6月的《程序员》杂志。当时[Go语言](http://golang.org)刚刚推出第一个稳定版：Go 1。刊载时略有删改。[上篇](monnand.me/p/ready-go-1/zhCN/)*
+*本文分两部分连载于2012年5月和6月的《程序员》杂志。当时[Go语言](http://golang.org)刚刚推出第一个稳定版：Go 1。刊载时略有删改。[上篇](http://monnand.me/p/ready-go-1/zhCN/)*
 
 Google于2009年11月发布了Go编程语言，旨在同时具备C语言的效率和Python的简便。今年3月，Go开发组正式发布了Go语言的第一个稳定发行版：Go version 1，简称Go 1。这意味着Go语言本身和它的标准库已经稳定下来，开发者现在可以将其作为一个稳定的开发平台，构建自己的应用。我们用两篇文章介绍Go语言的特性和应用，本文是其中的第二篇。
 
-[上一期](monnand.me/p/ready-go-1/zhCN/)介绍了Go语言的部分语法和类型系统。本篇重点介绍Go语言对于并行的处理和go工具链。本文中的完整代码可以在[github](http://github.com/monnand/goexamples)上找到。
+[上一期](http://monnand.me/p/ready-go-1/zhCN/)介绍了Go语言的部分语法和类型系统。本篇重点介绍Go语言对于并行的处理和go工具链。本文中的完整代码可以在[github](http://github.com/monnand/goexamples)上找到。
 
 # 并行和goroutine
 
@@ -137,18 +137,18 @@ writeRes和process的基本结构大约如下：
 
     import (
         "fmt"
-        "github.com/monnand/redis.go"
+        "github.com/monnand/goredis"
     )
     
-import中引入的第一个包，是fmt，这是标准库中的包，提供Printf一类的格式化输入和输出。第二个引入的包则是位于github上的代码库。它会引入github上，用户monnand下，redis.go这个项目定义的包。
+import中引入的第一个包，是fmt，这是标准库中的包，提供Printf一类的格式化输入和输出。第二个引入的包则是位于github上的代码库。它会引入github上，用户monnand下，goredis这个项目定义的包。
 
 接下来，再调用go命令安装这个库：
 
-    go get github.com/monnand/redis.go
+    go get github.com/monnand/goredis
     
-这样，go程序就会自动下载，编译和安装这个库（包括它的依赖）。接下来再使用``go build``编译依赖redis.go的程序。
+这样，go程序就会自动下载，编译和安装这个库（包括它的依赖）。接下来再使用``go build``编译依赖goredis的程序。
 
-除此以外，如果依赖redis.go的程序也在github（或其他go支持的版本控制库）中，那么只用一条``go get``命令指明该程序所在的远程地址就足够了，go会自己下载安装各种依赖。除了github，go还支持google code，BitBucket，Launchpad，或者是任何位于其他服务器上，使用svn，git，Bazzar，Mercurial做版本控制的Go程序/库。这一切都极大地简化了开发人员和最终用户的操作。
+除此以外，如果依赖goredis的程序也在github（或其他go支持的版本控制库）中，那么只用一条``go get``命令指明该程序所在的远程地址就足够了，go会自己下载安装各种依赖。除了github，go还支持google code，BitBucket，Launchpad，或者是任何位于其他服务器上，使用svn，git，Bazzar，Mercurial做版本控制的Go程序/库。这一切都极大地简化了开发人员和最终用户的操作。
 
 # 再谈运行效率
 
