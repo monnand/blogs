@@ -18,9 +18,9 @@ Google于2009年11月发布了Go编程语言，旨在同时具备C语言的效�
 > *然而，处理器技术的发展指出，比起[掩盖了各种并行结构的]单处理器，由多个类似的处理器（各自包含自己的存储单元）组成的多处理器计算机也许会更加强大，可靠和经济。*
 > --- C.A.R. Hoare，图灵奖获得者，CSP作者，于1978年
 
-20世纪六七十年代，为了弥补处理器的处理能力，并行计算曾一度成为研究热点。期间不乏优秀的想法，如信号量（Semaphore），管程（Monitor），锁（mutex）以及基于消息传递的同步机制。但八十年代起，随着单核处理器性能飞速提高，学术界迎来了并行计算的黑暗时期。六七十年代的研究成果中，只有早期的一些思想被大规模使用在实际开发中。而七十年代后期的很多成果甚至还没被大规模应用，就伴随着并行计算黑暗期的到来，或不温不火，或被收藏入库。CSP（Communicating Sequential Processes）便是其中之一。但它优雅简洁的处理方式却依然在一些小众语言中流传了下来。如今，由于能耗和散热问题，处理器的发展转而以多核的方式提高处理器性能。我们再次迎来了曾经面对过的并行计算。这时候，CSP模型逐渐展露头脚。
+20世纪六七十年代，为了弥补处理器的处理能力，并行计算曾一度成为研究热点。期间不乏优秀的想法，如信号量（Semaphore），管程（Monitor），锁（mutex）以及基于消息传递的同步机制。但八十年代起，随着单核处理器性能飞速提高，学术界迎来了并行计算的黑暗时期。六七十年代的研究成果中，只有早期的一些思想被大规模使用在实际开发中。而七十年代后期的很多成果甚至还没被大规模应用，就伴随着并行计算黑暗期的到来，或不温不火，或被收藏入库。[CSP]（Communicating Sequential Processes）便是其中之一。但它优雅简洁的处理方式却依然在一些小众语言中流传了下来。如今，由于能耗和散热问题，处理器的发展转而以多核的方式提高处理器性能。我们再次迎来了曾经面对过的并行计算。这时候，[CSP]模型逐渐展露头脚。
 
-CSP的基本思路是基于消息机制的同步和数据共享。与传统的锁同步不同，消息机制简化了程序设计，并且可以有效地减少潜在bug。基于CSP模型的语言主要有三个分支：忠于原始CSP设计，以Occam为代表的一支；强调网络和模式，以Erlang为代表的一支；再一个就是强调传递消息的信道（channel），以Squeak，Newsqueak，Alef，Limbo和Go为代表的一支。值得一提的是，第三支的语言中，大部分都是有Rob Pike主持或参与开发的，其中自然也包括Go。
+[CSP]的基本思路是基于消息机制的同步和数据共享。与传统的锁同步不同，消息机制简化了程序设计，并且可以有效地减少潜在bug。基于CSP模型的语言主要有三个分支：忠于原始CSP设计，以[Occam]为代表的一支；强调网络和模式，以[Erlang]为代表的一支；再一个就是强调传递消息的信道（channel），以[Squeak]，[Newsqueak]，[Alef]，[Limbo]和[Go]为代表的一支。值得一提的是，第三支的语言中，大部分都是有Rob Pike主持或参与开发的，其中自然也包括Go。
 
 既然说起Go的这一分支是以强调信道（channel）为特色，那么就先从Go的信道说起。Go的信道是一种数据类型，goroutine可以使用它来传递数据。至于goroutine是什么，之后会详细讨论。此处仅需把它理解为与线程类似的运行时结构即可。
 
@@ -187,3 +187,13 @@ Unix创始人Ken Thonpson；UNIX/Plan 9开发者Rob Pike，Russ Cox；memcached�
 已经有很多公司使用Go开发生产级程序。Rob Pike曾透露过Google内部正逐渐开始使用Go。YouTube则使用Go编写核心部件，并且将部分代码组织成了开源项目vitess。国内包括豆瓣，QBox等公司也已经率先踏入Go语言这个领域。
 
 随着Go 1的推出，一个稳定的Go语言平台和开源社区已经形成。对于喜欢尝试新鲜语言的开发者，Go不失为一个选择。
+
+[CSP]: http://en.wikipedia.org/wiki/Communicating_sequential_processes
+[Occam]: http://en.wikipedia.org/wiki/Occam_%28programming_language%29
+[Erlang]: http://erlang.org
+[Newsqueak]: http://en.wikipedia.org/wiki/Newsqueak
+[Squeak]: http://doc.cat-v.org/bell_labs/squeak/
+[Alef]: http://en.wikipedia.org/wiki/Alef_%28programming_language%29
+[Limbo]: http://en.wikipedia.org/wiki/Limbo_%28programming_language%29
+[Go]: http://golang.org
+
