@@ -180,7 +180,7 @@ Go语言的开发者之一，Russ Cox曾在Go的官方博客上发表了[一篇�
 
 # 总结
 
-现在来说，我觉得在系统级开发方面，它（Go）比C++要好上许多。使用它开发更高效，并能使用比C++更简单的方式解决很多问题。---- Bruce Eckel, 《C++编程思想》《Java编程思想》作者
+> *现在来说，我觉得在系统级开发方面，它（Go）比C++要好上许多。使用它开发更高效，并能使用比C++更简单的方式解决很多问题。*---- Bruce Eckel, 《C++编程思想》《Java编程思想》作者
 
 Unix创始人Ken Thonpson；UNIX/Plan 9开发者Rob Pike，Russ Cox；memcached作者Brad Fitzpatrick；Java Hotspot编译器作者之一，Chrome V8引擎作者之一Robert Griesemer；Gold连接器作者，GCC社区活跃开发人员Ian LanceTaylor……当这样一群人凑在一起，无论开发什么，这团队本身也许已经足以吸引众人眼球了。而Go作为这样一个团队开发出的语言，目前为止还是给不少人带来了惊喜。
 
