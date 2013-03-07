@@ -21,7 +21,7 @@ Tags: ["youtube videos"]
 
 [ENgineerGuy](https://www.youtube.com/user/engineerguyvideo)的作者是UIUC的化学系教授。这个频道的视频都是涉及各种工程设计，每个视频五分钟上下。视频中有很多演示，实验等等，所以非常直观易懂。
 
-比如说[微波炉是如何工作的](https://www.youtube.com/watch?v=kp33ZprO0Ck）？可能有人会知道微波，水分子，共振之类的内容。但是如何使用手边的东西，简单测量一个微波炉发出的微波的波长呢？
+比如说[微波炉是如何工作的](https://www.youtube.com/watch?v=kp33ZprO0Ck)？可能有人会知道微波，水分子，共振之类的内容。但是如何使用手边的东西，简单测量一个微波炉发出的微波的波长呢？
 
 还有[液晶屏是怎么工作的](https://www.youtube.com/watch?v=jiejNAUwcQ8)？[原子钟呢](https://www.youtube.com/watch?v=p2BxAu6WZI8)？
 
