@@ -1,0 +1,42 @@
+<%--
+Author: monnand
+Key: /home/monnand/.ssh/monnand.pem
+Title: 那些优秀的Youtube频道
+Slug: youtube-videos
+Language: zhCN
+Tags: ["youtube videos"]
+--%>
+
+[Youtube](http://youtube.com)上面有很多有意思的视频，内容涉及自然科学，数学，政治等等。很多Youtube用户自己创建的频道里就定期更新一些有趣的东西。这里记录一下我订阅的频道。
+
+# Vsauce
+
+[Vsauce](https://www.youtube.com/user/Vsauce)这个频道是一位叫做Michael的用户创建，之后又有两位借用Vsauce的名字，和Michael合作，各自维护[Vsauce2](https://www.youtube.com/user/Vsauce2)和[Vsauce3](https://www.youtube.com/user/Vsauce3)两个频道。这里只是说说[Vsauce](https://www.youtube.com/user/Vsauce)。
+
+[Vsauce](https://www.youtube.com/user/Vsauce)这个频道里的视频内容涉及非常广泛。简单说来，就是所有作者觉得有意思的问题都会被放进来。比如说[究竟动物和人有什么区别？](https://www.youtube.com/watch?v=evQsOFQju08)以前马哲课上说本质区别是“制造和使用工具”。显然，马哲课上没啥东西值得信。人家好多猩猩，类人猿都能制造也能使用很多工具。那么语言呢？要教会猩猩使用手语并没有想象中那么难。而且它们也可以用手语表达很多非常复杂的事情。[这个视频](https://www.youtube.com/watch?v=evQsOFQju08)则会提到一些最新的区别和测试。
+
+[Vsauce](https://www.youtube.com/user/Vsauce)上，每个视频往往不会固定讲一个主题。作者往往天马行空，想到啥说啥。当然，这种看似“即兴”的视频，肯定也是事先准备好的。这个频道的作者Michael有两个本科学位，一个是神经科学，一个是英文。可能这也能解释为什么他既对各种自然科学话题感兴趣，还能非常流畅地把整个主题讲下来，每处衔接还非常顺畅。比如[这个视频](https://www.youtube.com/watch?v=atI-JPGcF-k)就涉及了各种话题，从英语的起源，一直到英语的口音等等。
+
+# EngineerGuy
+
+[ENgineerGuy](https://www.youtube.com/user/engineerguyvideo)的作者是UIUC的化学系教授。这个频道的视频都是涉及各种工程设计，每个视频五分钟上下。视频中有很多演示，实验等等，所以非常直观易懂。
+
+比如说[微波炉是如何工作的](https://www.youtube.com/watch?v=kp33ZprO0Ck）？可能有人会知道微波，水分子，共振之类的内容。但是如何使用手边的东西，简单测量一个微波炉发出的微波的波长呢？
+
+还有[液晶屏是怎么工作的](https://www.youtube.com/watch?v=jiejNAUwcQ8)？[原子钟呢](https://www.youtube.com/watch?v=p2BxAu6WZI8)？
+
+# C.G.P Grey
+
+[C. G. P. Grey](https://www.youtube.com/user/CGPGrey)也是个包罗万象的频道。作者是物理学和教育学出身，现在在英国做教师，所以非常擅长把复杂的事情讲清楚。不过这个频道不仅限于物理学，还涉及历史政治等等，而且话题也紧跟时事。
+
+比如最近天主教大主教辞职这个事情，[C. G. P. Grey](https://www.youtube.com/user/CGPGrey)就专门做了一个[视频](https://www.youtube.com/watch?v=kF8I_r9XT7A)，告诉大家如何能被选做大主教。
+
+他还有一些政治类视频。比如大家都知道民主选举是个好事，可什么是民主选举？怎么做选举？这些问题显然不会在中国的课本上出现。[这个视频](https://www.youtube.com/watch?v=s7tWHJfhiyo)讨论了现有的一人一票制的问题，解释了为什么大多数国家都只有两个政党。而[这个视频](https://www.youtube.com/watch?v=3Y3jE3B8HsE)则介绍了另外一种投票制度：Alternative Voting。看过这些视频，我就觉得民主真的是个工程问题。什么是工程问题？就是没有一个确定的目标，而是各种互相矛盾的目标之间的权衡。举个例子，你要买个电脑，你既想要性能好的，又想要便宜的，还要方便轻薄的。显然，你不可能同时满足这些条件，所以在短时期内，你需要权衡。但是随着技术的进步，这些目标有都能在一定程度上达到——想想现在的电脑比起六十年代的计算机，是多么高效，便宜又轻薄。关于这个问题，我都打算单独写篇文章讨论一下。总之，看着[C. G. P. Grey](https://www.youtube.com/user/CGPGrey)讨论各种选举制度的优劣，你就看出中国的“政治”是多么落后。打个比方：人家都开始研究油电混合动力发动机了，我们还在讨论用轮子会不会上邪路呢。
+
+# MinutePhysics
+
+[MinutePhysics](https://www.youtube.com/user/minutephysics)这个名字就暴露了它的内容：物理学。每个视频都只有两三分钟，但却涉及相对论，量子物理等等。视频中往往会用几笔简笔画，就把问题说得清楚明白。
+
+# 后记
+
+这里推荐的频道都是我经常看的。还有很多很受欢迎的频道，但因为我没怎么看过里面的视频，就没有放在这里了。
