@@ -1,0 +1,141 @@
+<%--
+Author: monnand
+Key: /home/monnand/.ssh/monnand.pem
+Title: 配置vim的Go开发环境
+Slug: vim-golang-environment
+Language: zhCN
+Tags: ["golang", "vim"]
+--%>
+
+好久没写博客了。主要是觉得好多东西不值得写（加上人懒）。今天整理自己的[vimrc]，感觉收拾收拾还能写篇博客。这篇博客打算介绍一下我针对[Go语言]的vim配置。包括一些插件，工具等。个人感觉，把vim配置好，比用任何IDE都方便。如果你使用vim来编写[Go语言]的代码，那么只使用官方提供的那个vim插件就实在太痛苦了。很多功能都可以通过额外的程序和对应的vim插件来完成。注意：本文中提到的工具往往都有对应的emacs版本。所以emacs党不要担心，你们的编辑器也同样强大。
+
+# 安装Vundle
+
+我之前就写过一篇[博客](http://monnand.me/p/vundle/zhCN/)来专门介绍[Vundle]。如果你还没开始使用这个强大的插件管理工具，那么你一定要尝试一下。安装步骤：
+
+- ``git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle``
+- 在*.vimrc*文件的开头添加以下代码：
+
+        set nocompatible               " be iMproved
+        filetype off                   " required!
+
+        set rtp+=~/.vim/bundle/vundle/
+        call vundle#rc()
+
+        " let Vundle manage Vundle
+        " required! 
+        Bundle 'gmarik/vundle'
+        filetype plugin indent on
+        syntax on
+
+# 自动添加/移除import：goimports
+
+[Go语言]有一个一直被人讨论的特点：如果一个包被import进来而没有使用，编译器将把这作为一个语法错误对待。这个特性本身可以加快编译速度，同时也可以让代码更清晰，避免引入没有用的包。但是这个特性也常常被人认为会影响开发进程。一个典型的例子就是：假设我在开发过程中，需要临时打印出一些变量的值。这时候，我需要``import "fmt"``来引入``fmt``这个包，然后在代码相应的位置添加``fmt.Printf()``之类的函数调用，来打印出变量的值。之后，我可能暂时不需要打印这个变量了，于是我去掉了``fmt.Printf()``这行。如果这是整个文件中，唯一一处使用``fmt``包的地方，那么就要跳到文件开头，去移除``import "fmt"``这行代码。这样做，就导致开发人员必须从文件中间（调用``fmt.Printf()``的地方），跳到文件开头，然后再跳回来，继续开发。这种上下跳转，即便用vim的register记下位置，也总是要增加好几次键盘敲击。而且这种临时打印变量值的动作往往会比较频繁，里外里就影响了开发效率。Go的这条语法要求，甚至成为了某些人放弃学习Go的原因。
+
+对于Go的这个特性，我个人的意见是：特性本身可以让代码更清晰；而之所以有上述的麻烦，是因为没有使用好正确的工具。
+
+Go语言的作者之一[Brad Fitzpatrick]于是开发了[goimports]这个软件。它的任务很简单：查看代码，如果调用了某些包的函数而没有在开头import这个包，那么就在开头加入这行import；反之，如果import了某些包但是没有调用这个包里的函数，就删除那行import。
+
+## 安装步骤
+
+- ``go get github.com/bradfitz/goimports``
+- 在*.vimrc*里添加：``Bundle 'cespare/vim-golang'``。这条命令会安装[cespare/vim-golang](https://github.com/cespare/vim-config)的vim插件。这是Go官方vim插件的修改版，支持[goimports]。
+- 重新开启vim，命令模式下执行``:BunduleInstall``。该命令会让[Vundle]根据*.vimrc*设定，自动安装缺少的插件。这条命令下面会经常用到。
+- （可选）在*.vimrc*里添加：``autocmd BufWritePre *.go :Fmt``。这条语句可以让任何Go文件保存前，调用[goimports]对该文件排版并插入/删除相应的``import``语句。
+
+## 使用方法
+
+在对一个Go文件进行编辑后，在命令模式下输入``:Fmt``，*goimports*会在后台被自动调用，对当前编辑的文件排版，并在文件中插入/删除相应的``import``语句。
+
+## 局限
+
+- [goimports]目前只能添加标准库中的包，如果你使用了非标准库中的函数，你还是要自己手动写好``import``语句。
+- 如果你的代码编辑到一半，里面还有一些括号匹配之类的问题。[goimports]会报错。不过这个报错倒是可以提醒用户代码存在问题。
+
+# 自动跳转
+
+在调用一个函数，或者使用一个结构体的时候，可能想去跳转到函数定义的地方，看看它的代码是什么。这个功能在阅读别人代码的时候非常有用。安装[godef]和相应插件，就可以实现这个功能
+
+## 安装步骤
+
+- ``go get code.google.com/p/rog-go/exp/cmd/godef``
+- 在*.vimrc*里添加：``Bundle 'dgryski/vim-godef'``
+- 重新开启vim，命令模式下执行``:BunduleInstall``。
+
+## 使用方法
+
+打开一个Go代码文件，把光标移到一个函数上，在命令模式下输入``gd``。vim会显示这个函数的定义。详细配置参见[godef]。
+
+# 自动补全
+
+啥也不说了。几乎所有的Gopher都应该知道[gocode]吧。之所以把这么重要的功能放在这么靠后，纯粹是因为它太有名，我都不想说了。
+
+## 安装步骤
+
+- ``go get github.com/nsf/gocode``
+- 在*.vimrc*里添加：``Bundle 'Blackrush/vim-gocode'``
+- 重新开启vim，命令模式下执行``:BunduleInstall``。
+
+## 使用方法
+
+写一个hello world，在输入``fmt.``之后按<C-x><C-o>，你会看到显示出``fmt``包下面的各个函数，而且会在上面出现一个小窗口，显示出各个函数的声明。当然，这个快捷键是可以设置的。
+
+## 局限
+
+你必须要先``import``，然后才能在相应的包里搜索。把[goimports]和[gocode]一起用就看出尴尬了：你输入完``fmt.``，本来想要[gocode]补全，但是如果你没有``import fmt``，你就没法补全。这时候你想起了[goimports]，但是在输入完整的函数名之前，你又没法用[goimports]自动添加``import``语句。所以，你要么输入``fmt.Printf()``，然后让[goimports]添加import语句，接着用[gocode]自动补全；要么你就老老实实跑到文件开头自己添加import语句然后自动补全。反正你得先自己手动干一样。
+
+# Tagbar
+
+很多IDE都可以在代码旁边显示当前文件包含哪些函数定义，结构体定义等等。[gotags]配合[tagbar]就可以实现这个功能
+
+- ``go get github.com/jstemmer/gotags``
+- 添加以下内容到*.vimrc*：
+
+        Bundle 'majutsushi/tagbar'
+        nmap <F8> :TagbarToggle<CR>
+        let g:tagbar_type_go = {
+            \ 'ctagstype' : 'go',
+            \ 'kinds'     : [
+                \ 'p:package',
+                \ 'i:imports:1',
+                \ 'c:constants',
+                \ 'v:variables',
+                \ 't:types',
+                \ 'n:interfaces',
+                \ 'w:fields',
+                \ 'e:embedded',
+                \ 'm:methods',
+                \ 'r:constructor',
+                \ 'f:functions'
+            \ ],
+            \ 'sro' : '.',
+            \ 'kind2scope' : {
+                \ 't' : 'ctype',
+                \ 'n' : 'ntype'
+            \ },
+            \ 'scope2kind' : {
+                \ 'ctype' : 't',
+                \ 'ntype' : 'n'
+            \ },
+            \ 'ctagsbin'  : 'gotags',
+            \ 'ctagsargs' : '-sort -silent'
+        \ }
+
+- 重新开启vim，命令模式下执行``:BunduleInstall``。
+
+
+## 使用方法
+
+编写代码的时候，在命令模式下按<F8>，你就会看到右边出现了当前文件下的函数名，结构体名等等。把光标放在右边窗口上的相应tag上，按回车可以快速跳到相应位置。再按<F8>会关闭tag窗口。
+
+
+[Go语言]: http://golang.org
+[golang]: http://golang.org
+[vimrc]: http://github.com/monnand/vimrc
+[goimports]: https://github.com/bradfitz/goimports
+[Brad Fitzpatrick]: http://bradfitz.com/
+[Vundle]: https://github.com/gmarik/vundle
+[godef]: https://github.com/dgryski/vim-godef
+[gocode]: https://github.com/nsf/gocode
+[gotags]: https://github.com/jstemmer/gotags
+[tagbar]: http://majutsushi.github.io/tagbar/
