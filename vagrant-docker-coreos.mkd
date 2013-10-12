@@ -1,0 +1,77 @@
+<%--
+Author: monnand
+Key: /home/monnand/.ssh/monnand.pem
+Title: vagrant, docker, coreos
+Slug: vagrant-docker-coreos
+Language: zhCN
+Tags: ["vagrant", "docker", "coreos"]
+--%>
+
+我确实不知道怎么用一句简单的话描述这三个东西的功能。但真的非常有用。[vagrant]可以帮助用户管理/部署虚拟机的程序。[docker]是一个帮助用户创建/运行/管理基于[lxc]的linux container的程序。[coreos]是一个专门为运行linux container而设计的发行版。好吧，这个描述恐怕帮助不大。不过还是用一个实际的例子来比较方便
+
+# 示例：虚拟机里运行postegersql
+
+先说一下这个例子要做什么：我们要利用vagrant，创建并运行一个[virtualbox]的虚拟机，并且在虚拟机里运行[coreos]系统，同时，在这个[coreos]的虚拟机里，利用[docker]创建一个linux container，里面运行postgresql。
+
+首先，要安装[vagrant]和[virtualbox]。具体安装细节我就不说了，都很容易。
+
+接下来，让[vagrant]添加一个虚拟机镜像：
+
+	$ vagrant box add coreos http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_vagrant.box
+
+这条命令会让[vagrant]从指定的url下载一个虚拟机镜像文件。上面指定的URL是[coreos]官方提供的虚拟机镜像。这个镜像（在[vagrant]里叫box）被命名为coreos。
+
+然后，创建一个基于coreos镜像的虚拟机：
+
+	$ mkdir postgresvm
+	$ vagrant init coreos
+
+第一条命令创建一个单独的文件夹来放这个虚拟机相关的东西，第二条命令创建了一个基于coreos镜像的虚拟机。创建之后，可以在当前文件夹下看到一个名为*Vagrantfile*的文件。
+
+打开*Vagrantfile*，找到这一行：``config.vm.network :private_network, ip: "192.168.33.10"``，去掉这行的注释（就是删除行首的井号）。保存文件。这样，这台虚拟机的IP地址就是``192.168.33.10``。注意：这个地址只对宿主机可见（运行虚拟机的物理计算机）。如果需要配置别的网络环境，可以参见[vagrant]的文档。
+
+下面，运行这台虚拟机：
+
+	$ vagrant up
+	$ vagrant ssh
+
+第一条命令开启了这个虚拟机，第二条命令通过ssh登录进了这个虚拟机。
+
+前面已经说了，[coreos]是针对运行[docker]的container而设计的。所以这台虚拟机里已经安装好了[docker]。下一步就是安装postgresql。正常说来，就是要``apt-get``或者``yum``啥的来安装然后配置什么的。不过利用[docker]，你可以下载别人创建好的container。什么是container呢？可以把它简单地理解为另一种轻量的虚拟化技术。简单说，一个container就是一个虚拟机。我们想要安装一个postgresql，那么就可以看看有没有人创建好了运行postgresql的container：
+
+	$ sudo docker search postgresql
+	Found 25 results matching your query ("postgresql")
+	NAME                                   DESCRIPTION
+	jpetazzo/pgsql                         A random PostgreSQL service.
+	synthomat/pgsql                        PostgreSQL 9.1 Image
+	zaiste/postgresql                      PostgreSQL 9.2 - https://gist.github.com/zaiste/5735631
+	...
+
+可以看到有25个container包含了postgresql这个关键词。我用的是zaiste/postgresql，下面用[docker]来下载并安装这个container：
+
+	$ sudo docker pull zaiste/postgresql
+
+安装完之后，我们就可以运行这个container了。这个container里安装了postgresql，并且运行在5432这个端口上，所以我们需要把container的5432端口映射到本地机（coreos)的5432端口上，同时，运行这个container：
+
+	$ sudo docker run -d -p 5432:5432 zaiste/postgresql
+
+这个命令里，``-d``告诉docker运行为daemon；``-p 5432:5432`` 告诉docker把本地端口5432留给container的5432端口。运行完这个命令，我们就已经在coreos上运行了postgresql了。
+
+下一步，在宿主机上连接coreos里运行的postgresql。宿主机就是运行着虚拟机的物理主机：
+
+	$ psql -h 192.168.33.10 -p 5432 -d docker -U docker -W
+
+输入密码：docker。这样，就连上了虚拟机中的postgresql。而那个postgresql则是运行在虚拟机里的一个linux container中。
+
+# 虚拟机里跑container，这不蛋疼吗？
+
+前面说了，container是一种非常轻量级的虚拟化技术，所以所以并不像一般想象中的虚拟机那样吃资源。另外，可以试想这样一个情景：在amazon的ec2上配置一个postgresql环境。要知道，ec2是按小时收费的。如果能把配置环境的步骤简化，那么就相当于为用户省钱。一条``docker pull ...``就可以把整个环境都下载下来，这样可以很大地节约人力成本和时间成本。而配置几个amazon的ec2服务器，让它们之间协同工作，则可以利用[vagrant]的配置文件完成。同时，利用[coreos]里的[etcd]程序来发现节点间的服务。
+
+其他我就不多说了，三个程序的文档都很全，而且都是自由/开源的。它们的很多功能我的这篇博客都还没涉及到呢。
+
+[etcd]: https://github.com/coreos/etcd
+[vagrant]: http://www.vagrantup.com/
+[docker]: http://docker.io
+[coreos]: http://coreos.com
+[lxc]: http://lxc.sourceforge.net/
+[virtualbox]: https://www.virtualbox.org
